@@ -1,0 +1,259 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Tech Test",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Client Applications"
+    },
+    {
+      "name": "Groups"
+    }
+  ],
+  "paths": {
+    "/api/v1/groups/{group_id}/apps/{app_id}": {
+      "post": {
+        "tags": ["Client Applications"],
+        "description": "Registers an application heartbeat within a group",
+        "operationId": "registerHeartbeat",
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "meta": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parameters fail",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["Client Applications"],
+        "description": "Deletes an application within a group",
+        "operationId": "deleteApplication",
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {}
+          },
+          "400": {
+            "description": "Parameters fail",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/v1/groups/{group_id}/apps/": {
+      "get": {
+        "tags": ["Client Applications"],
+        "description": "Returns the instances of applications that belongs to a group",
+        "operationId": "getGroupApplications",
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Application"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parameters fail",
+            "content": {}
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/v1/groups/summary": {
+      "get": {
+        "tags": ["Groups"],
+        "description": "Returns summary of all currently registered groups",
+        "operationId": "getGroupsSummary",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupSummary"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parameters fail",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Application": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "int64",
+            "example": "1571418096158"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "int64",
+            "example": "1671418096123"
+          },
+          "meta": {
+            "type": "object",
+            "example": {
+              "foo": "bar"
+            }
+          }
+        }
+      },
+      "GroupSummary": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "instances": {
+            "type": "number",
+            "format": "int32",
+            "example": "4"
+          },
+          "firstHeartbeat": {
+            "type": "number",
+            "format": "int64",
+            "example": "1571418096158",
+            "required": false
+          },
+          "lastHeartbeat": {
+            "type": "number",
+            "format": "int64",
+            "example": "1671418096123",
+            "required": false
+          }
+        }
+      }
+    }
+  }
+}
