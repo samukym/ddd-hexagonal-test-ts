@@ -1,5 +1,5 @@
 # Purpose
-Tecnical test I have made back in the days applying ddd + hexagonal/clean architecture. It was intentionally overengineered to showcase my architecture skills, but it does not necessarily represent the solution I would have implemented.
+Tecnical test I have made back in the days applying ddd + hexagonal/clean architecture. <b>It was intentionally overengineered</b> to showcase my architecture skills, but it does not necessarily represent the solution I would have implemented.
 
 # Spec
 The idea is simple: a number of different client applications will periodically send heartbeats to this service, and the service keeps track of them, periodically removing those that didn't send any heartbeats in some configured time frame.
